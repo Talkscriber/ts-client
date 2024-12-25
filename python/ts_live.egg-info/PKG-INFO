@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: ts_live
+Version: 0.1.0
+Requires-Dist: websocket-client>=1.6.0
+Requires-Dist: numpy<1.23.0,>=1.22.3
+Requires-Dist: PyAudio==0.2.11

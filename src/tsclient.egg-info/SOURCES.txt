@@ -1,0 +1,11 @@
+LICENSE
+LICENSE.md
+README.md
+setup.py
+src/tsclient/__init__.py
+src/tsclient/client.py
+src/tsclient.egg-info/PKG-INFO
+src/tsclient.egg-info/SOURCES.txt
+src/tsclient.egg-info/dependency_links.txt
+src/tsclient.egg-info/requires.txt
+src/tsclient.egg-info/top_level.txt
