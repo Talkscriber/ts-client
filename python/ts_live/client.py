@@ -38,7 +38,7 @@ class Client:
     """
     SESSIONS = {}
 
-    def __init__(self, server_host=None, server_port=None, api_key=None, multilingual=False, language=None, translate=False):
+    def __init__(self, server_host=None, server_port=None, api_key=None, multilingual=False, language=None, translate=False, enable_turn_detection=False, turn_detection_timeout=0.6):
         """
         Initialize an AudioClient instance for recording and streaming audio.
         """
@@ -52,6 +52,8 @@ class Client:
         self.multilingual = multilingual
         self.language = language
         self.task = "translate" if translate else "transcribe"
+        self.enable_turn_detection = enable_turn_detection
+        self.turn_detection_timeout = turn_detection_timeout
         self.session_id = str(uuid.uuid4())
         self.is_waiting = False
         self.last_server_response_time = None
@@ -277,7 +279,7 @@ class Client:
         """
         Handles the WebSocket connection opening.
         """
-        print(f"[INFO]: Connection established")
+        print("[INFO]: Connection established")
         ws.send(
             json.dumps(
                 {
@@ -285,7 +287,9 @@ class Client:
                     "multilingual": self.multilingual,
                     "language": self.language,
                     "task": self.task,
-                    "auth": self.api_key
+                    "auth": self.api_key,
+                    "enable_turn_detection": self.enable_turn_detection,
+                    "turn_detection_timeout": self.turn_detection_timeout
                 }
             )
         )
@@ -373,6 +377,8 @@ class TranscriptionClient:
         multilingual (bool, optional): Indicates whether the transcription should support multiple languages (default is False).
         lang (str, optional): The primary language for transcription (used if `multilingual` is False). Default is None, which defaults to English ('en').
         translate (bool, optional): Indicates whether translation tasks are required (default is False).
+        enable_turn_detection (bool, optional): Enables smart turn detection using ML model (default is False).
+        turn_detection_timeout (float, optional): Timeout threshold for end-of-speech detection in seconds (default is 0.6).
 
     Attributes:
         client (Client): An instance of the underlying Client class responsible for handling the WebSocket connection.
@@ -380,12 +386,19 @@ class TranscriptionClient:
     Example:
         To create a TranscriptionClient and start transcription on microphone audio:
         ```python
-        transcription_client = TranscriptionClient(host="localhost", port=9090, multilingual=True, translate=False)
+        transcription_client = TranscriptionClient(
+            host="localhost", 
+            port=9090, 
+            multilingual=True, 
+            translate=False,
+            enable_turn_detection=True,
+            turn_detection_timeout=0.6
+        )
         transcription_client()
         ```
     """
-    def __init__(self, host, port, api_key, multilingual=False, language=None, translate=False):
-        self.client = Client(host, port, api_key, multilingual=multilingual, language=language, translate=translate)
+    def __init__(self, host, port, api_key, multilingual=False, language=None, translate=False, enable_turn_detection=False, turn_detection_timeout=0.6):
+        self.client = Client(host, port, api_key, multilingual=multilingual, language=language, translate=translate, enable_turn_detection=enable_turn_detection, turn_detection_timeout=turn_detection_timeout)
 
     def __call__(self, audio=None):
         """

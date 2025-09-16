@@ -44,9 +44,23 @@ client = TranscriptionClient(
     api_key=TS_API_KEY,
     multilingual=False,
     language="en",
-    translate=True
+    translate=True,
+    enable_turn_detection=True,
+    turn_detection_timeout=0.6
 )
 ```
+
+### Smart Turn Detection
+The client supports advanced turn detection using machine learning:
+
+- **enable_turn_detection** (bool): Enables smart turn detection using ML model for better endpoint detection
+- **turn_detection_timeout** (float): Timeout threshold for end-of-speech detection in seconds (fallback when ML model confidence is low)
+
+When `enable_turn_detection=True`, the system uses an ML model to predict turn completion in addition to the standard timeout-based method. This provides:
+- Improved accuracy over time-based thresholds alone
+- Context awareness of speech patterns
+- Reduced false positives
+- Adaptive behavior across different speakers and languages
 
 ### Supported Languages
 For a list of supported languages, refer to the section below.
