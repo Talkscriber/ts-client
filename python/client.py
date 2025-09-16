@@ -20,8 +20,8 @@ client = TranscriptionClient(
     api_key=TS_API_KEY,
     multilingual=False,
     language="en",
-    translate=True,
-    enable_turn_detection=True,
+    translate=False,
+    enable_turn_detection=False,
     turn_detection_timeout=0.6
 )
 
