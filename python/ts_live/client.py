@@ -268,6 +268,12 @@ class Client:
             os.system("clear")
         for line in wrapped_text:
             print(line)
+        if 'segments' in message:
+            segments = server_message['segments']
+            last_segment = segments[-1] if segments else None
+            if last_segment and last_segment['EOS']:
+                print("[INFO]: --------End of speech detected----------")
+
 
     def on_error(self, ws, error):
         print(f"[ERROR]: WebSocket error: {error}")
