@@ -1,0 +1,128 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "talkscriber-client"
+version = "1.0.0"
+description = "Python client library for Talkscriber Live Transcription and Text-to-Speech services"
+readme = "README.md"
+license = {file = "LICENSE.md"}
+authors = [
+    {name = "Talkscriber", email = "support@talkscriber.com"},
+]
+maintainers = [
+    {name = "Talkscriber", email = "support@talkscriber.com"},
+]
+keywords = [
+    "talkscriber",
+    "speech-to-text",
+    "text-to-speech",
+    "transcription",
+    "tts",
+    "stt",
+    "websocket",
+    "real-time",
+    "audio",
+    "speech",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Communications",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "ffmpeg-python>=0.2.0",
+    "PyAudio>=0.2.11",
+    "websocket-client>=1.6.0",
+    "websockets>=11.0.0",
+    "loguru>=0.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio",
+    "black",
+    "flake8",
+    "mypy",
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+
+[project.urls]
+Homepage = "https://talkscriber.com"
+Documentation = "https://docs.talkscriber.com"
+Repository = "https://github.com/Talkscriber/ts-client"
+"Bug Tracker" = "https://github.com/Talkscriber/ts-client/issues"
+Dashboard = "https://app.talkscriber.com"
+
+[project.scripts]
+talkscriber-live = "talkscriber.live.cli:main"
+talkscriber-tts = "talkscriber.tts.cli:main"
+
+[tool.setuptools]
+packages = ["talkscriber", "talkscriber.live", "talkscriber.tts"]
+
+[tool.setuptools.package-data]
+talkscriber = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pyaudio.*",
+    "ffmpeg.*",
+    "scipy.*",
+    "websocket.*",
+    "websockets.*",
+    "loguru.*",
+    "numpy.*",
+]
+ignore_missing_imports = true

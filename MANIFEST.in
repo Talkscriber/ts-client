@@ -1,0 +1,30 @@
+# Include package data
+include README.md
+include LICENSE.md
+include MANIFEST.in
+
+# Include requirements files
+include python/requirements.txt
+include tts/requirements.txt
+
+# Include example files
+recursive-include python *.py
+recursive-include tts *.py *.ipynb
+recursive-include examples *.py *.txt *.md
+recursive-include examples/stt *.py *.md
+recursive-include examples/tts *.py *.md
+recursive-include examples/integration *.py *.md
+recursive-include examples/configuration *.py *.md
+recursive-include examples/data *.txt
+
+# Exclude unnecessary files
+exclude *.pyc
+exclude *.pyo
+exclude __pycache__
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
+recursive-exclude * .git*
+recursive-exclude * .vscode
+recursive-exclude * .idea

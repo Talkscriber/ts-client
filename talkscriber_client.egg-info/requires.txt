@@ -4,4 +4,15 @@ ffmpeg-python>=0.2.0
 PyAudio>=0.2.11
 websocket-client>=1.6.0
 websockets>=11.0.0
-loguru>=0.7.0 
+loguru>=0.7.0
+
+[dev]
+pytest>=6.0
+pytest-asyncio
+black
+flake8
+mypy
+
+[docs]
+sphinx
+sphinx-rtd-theme
