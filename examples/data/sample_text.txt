@@ -1,0 +1,11 @@
+Welcome to the Talkscriber text-to-speech system. This is a demonstration of batch processing capabilities.
+
+The system can convert multiple text segments into audio files automatically. This is useful for creating voiceovers, generating audio content, or processing large datasets.
+
+Each paragraph or line in this file will be converted into a separate audio file. The system supports various voices and can process text in multiple languages.
+
+This batch processing approach is perfect for content creators who need to generate large amounts of audio content from text sources.
+
+You can customize the voice, output directory, and processing delay to suit your specific needs. The system handles errors gracefully and provides detailed progress information.
+
+Thank you for using Talkscriber for your text-to-speech needs!

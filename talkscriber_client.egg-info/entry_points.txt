@@ -1,0 +1,3 @@
+[console_scripts]
+talkscriber-live = talkscriber.live.cli:main
+talkscriber-tts = talkscriber.tts.cli:main

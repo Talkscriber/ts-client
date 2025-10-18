@@ -1,3 +1,72 @@
+Metadata-Version: 2.1
+Name: talkscriber-client
+Version: 1.0.0
+Summary: Python client library for Talkscriber Live Transcription and Text-to-Speech services
+Home-page: https://github.com/Talkscriber/ts-client
+Author: Talkscriber
+Author-email: Talkscriber <support@talkscriber.com>
+Maintainer-email: Talkscriber <support@talkscriber.com>
+License: MIT License
+        
+        Copyright (c) 2024 Talkscriber
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://talkscriber.com
+Project-URL: Documentation, https://docs.talkscriber.com
+Project-URL: Repository, https://github.com/Talkscriber/ts-client
+Project-URL: Bug Tracker, https://github.com/Talkscriber/ts-client/issues
+Project-URL: Dashboard, https://app.talkscriber.com
+Keywords: talkscriber,speech-to-text,text-to-speech,transcription,tts,stt,websocket,real-time,audio,speech
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Multimedia :: Sound/Audio :: Speech
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Communications
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: ffmpeg-python>=0.2.0
+Requires-Dist: PyAudio>=0.2.11
+Requires-Dist: websocket-client>=1.6.0
+Requires-Dist: websockets>=11.0.0
+Requires-Dist: loguru>=0.7.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx-rtd-theme; extra == "docs"
+
 # Talkscriber Python Client
 
 [![PyPI version](https://badge.fury.io/py/talkscriber-client.svg)](https://badge.fury.io/py/talkscriber-client)

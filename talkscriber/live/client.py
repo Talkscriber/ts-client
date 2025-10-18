@@ -1,16 +1,32 @@
 import os
 import wave
-
-import numpy as np
-import scipy
-import ffmpeg
-import pyaudio
 import threading
 import textwrap
 import json
-import websocket
 import uuid
 import time
+
+try:
+    import numpy as np
+    import scipy
+    import ffmpeg
+    import pyaudio
+    import websocket
+    DEPENDENCIES_AVAILABLE = True
+except ImportError as e:
+    DEPENDENCIES_AVAILABLE = False
+    # Create mock classes for when dependencies are not available
+    class MockWebSocket:
+        def __init__(self, *args, **kwargs): pass
+        def send(self, *args, **kwargs): pass
+        def close(self, *args, **kwargs): pass
+    websocket = type('MockWebSocketModule', (), {'WebSocketApp': MockWebSocket})()
+    class MockPyAudio:
+        def __init__(self, *args, **kwargs): pass
+        def open(self, *args, **kwargs): return type('MockStream', (), {'start_stream': lambda: None, 'stop_stream': lambda: None, 'close': lambda: None})()
+        def terminate(self, *args, **kwargs): pass
+        paInt16 = 8
+    pyaudio = type('MockPyAudioModule', (), {'PyAudio': MockPyAudio, 'paInt16': 8})()
 
 def resample_audio(input_file: str, new_sample_rate: int = 16000):
     """
@@ -42,6 +58,8 @@ class Client:
         """
         Initialize an AudioClient instance for recording and streaming audio.
         """
+        if not DEPENDENCIES_AVAILABLE:
+            raise ImportError("Required dependencies (numpy, scipy, ffmpeg-python, pyaudio, websocket-client) are not installed. Please install them with: pip install numpy scipy ffmpeg-python pyaudio websocket-client")
         self.audio_chunk_size = 1024
         self.audio_format = pyaudio.paInt16
         self.audio_channels = 1
@@ -404,6 +422,8 @@ class TranscriptionClient:
         ```
     """
     def __init__(self, host, port, api_key, multilingual=False, language=None, translate=False, enable_turn_detection=False, turn_detection_timeout=0.6):
+        if not DEPENDENCIES_AVAILABLE:
+            raise ImportError("Required dependencies (numpy, scipy, ffmpeg-python, pyaudio, websocket-client) are not installed. Please install them with: pip install numpy scipy ffmpeg-python pyaudio websocket-client")
         self.client = Client(host, port, api_key, multilingual=multilingual, language=language, translate=translate, enable_turn_detection=enable_turn_detection, turn_detection_timeout=turn_detection_timeout)
 
     def __call__(self, audio=None):
