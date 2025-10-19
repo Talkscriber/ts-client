@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of TSClient (Talkscriber Python Client)
 - **Live Transcription (STT)**
   - Real-time speech-to-text transcription via WebSocket
-  - Support for 200+ languages
+  - Support for 50+ languages
   - Smart turn detection using ML models
   - Translation capabilities
   - File and microphone input support

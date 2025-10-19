@@ -12,7 +12,7 @@ A comprehensive Python client library for Talkscriber's Live Transcription and T
 
 ### Live Transcription
 - Real-time speech-to-text transcription via WebSocket
-- Support for 200+ languages
+- Support for 50+ languages
 - Smart turn detection using ML models
 - Translation capabilities
 - File and microphone input support
@@ -217,7 +217,7 @@ TalkScriberTTSClient(
 
 ## Supported Languages
 
-The client supports 200+ languages including English, Spanish, French, German, Chinese, Japanese, and many more. See the [full language list](https://docs.talkscriber.com/languages) in our documentation.
+The client supports 50+ languages including English, Spanish, French, German, Chinese, Japanese, and many more. See the [full language list](https://docs.talkscriber.com/languages) in our documentation.
 
 ## Examples
 

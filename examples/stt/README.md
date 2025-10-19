@@ -40,7 +40,7 @@ python examples/stt/multilingual.py
 
 **Features:**
 - Automatic language detection
-- Support for 200+ languages
+- Support for 50+ languages
 - Real-time language identification
 - No need to specify language
 
