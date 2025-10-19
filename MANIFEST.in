@@ -4,12 +4,10 @@ include LICENSE.md
 include MANIFEST.in
 
 # Include requirements files
-include python/requirements.txt
-include tts/requirements.txt
+## removed legacy requirements files
 
 # Include example files
-recursive-include python *.py
-recursive-include tts *.py *.ipynb
+## removed legacy python/ and tts/ trees
 recursive-include examples *.py *.txt *.md
 recursive-include examples/stt *.py *.md
 recursive-include examples/tts *.py *.md

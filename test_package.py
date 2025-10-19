@@ -25,7 +25,7 @@ def test_package_structure():
     
     # Test that we can access the classes (even if they can't be instantiated)
     try:
-        from talkscriber.live import TranscriptionClient, Client
+        from talkscriber.stt import TranscriptionClient, Client
         print("✓ Live transcription classes accessible")
     except ImportError as e:
         if "dependencies are not installed" in str(e) or "Required dependencies" in str(e):

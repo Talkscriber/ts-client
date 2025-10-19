@@ -8,14 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-10-18
 
 ### Added
-- Initial release of Talkscriber Python Client
+- Initial release of TSClient (Talkscriber Python Client)
 - **Live Transcription (STT)**
   - Real-time speech-to-text transcription via WebSocket
   - Support for 200+ languages
   - Smart turn detection using ML models
   - Translation capabilities
   - File and microphone input support
-  - CLI tool: `talkscriber-live`
+  - CLI tool: `talkscriber-stt`
 
 - **Text-to-Speech (TTS)**
   - Ultra-low latency streaming (speech starts in <0.1 seconds)
@@ -60,6 +60,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Windows
 
 ## [Unreleased]
+
+### Changed
+- **Package Structure Reorganization**
+  - Renamed `talkscriber.live` module to `talkscriber.stt` for clarity
+  - Updated CLI tool from `talkscriber-live` to `talkscriber-stt`
+  - Consolidated all functionality under `talkscriber/` package
+  - Removed legacy duplicate directories (`/tts/`, `/python/`)
+  - Updated all import statements and documentation
 
 ### Planned Features
 - Additional voice options

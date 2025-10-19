@@ -23,7 +23,7 @@ Usage:
 import os
 import sys
 import time
-from talkscriber.live import TranscriptionClient
+from talkscriber.stt import TranscriptionClient
 from talkscriber.tts import TalkScriberTTSClient
 
 

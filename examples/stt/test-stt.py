@@ -7,7 +7,7 @@ import os
 import sys
 import time
 import signal
-from talkscriber.live import TranscriptionClient
+from talkscriber.stt import TranscriptionClient
 
 def signal_handler(sig, frame):
     """Handle Ctrl+C gracefully"""
@@ -166,7 +166,7 @@ def test_cli_tools():
     import shutil
     
     # Find the correct CLI tool path
-    cli_path = shutil.which('talkscriber-live')
+    cli_path = shutil.which('talkscriber-stt')
     if not cli_path:
         print("✗ STT CLI tool not found in PATH")
         return False

@@ -11,8 +11,8 @@ This package provides:
 
 Example usage:
 
-    # Live Transcription
-    from talkscriber.live import TranscriptionClient
+    # Speech-to-Text (STT)
+    from talkscriber.stt import TranscriptionClient
     
     client = TranscriptionClient(
         host="wss://api.talkscriber.com",
@@ -41,7 +41,7 @@ __email__ = "support@talkscriber.com"
 
 # Import main classes for easy access
 try:
-    from .live import TranscriptionClient
+    from .stt import TranscriptionClient
     from .tts import TalkScriberTTSClient
     
     __all__ = [
