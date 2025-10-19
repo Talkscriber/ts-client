@@ -17,7 +17,7 @@ Usage:
 import os
 import sys
 import argparse
-from talkscriber.live import TranscriptionClient
+from talkscriber.stt import TranscriptionClient
 
 
 def main():

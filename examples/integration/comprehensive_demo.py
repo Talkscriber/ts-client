@@ -8,7 +8,7 @@ capabilities of the Talkscriber client library.
 
 import os
 import sys
-from talkscriber.live import TranscriptionClient
+from talkscriber.stt import TranscriptionClient
 from talkscriber.tts import TalkScriberTTSClient
 
 

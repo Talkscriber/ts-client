@@ -1,9 +1,9 @@
-# Talkscriber Python Client
+# TSClient - Talkscriber Python Client
 
-[![PyPI version](https://badge.fury.io/py/talkscriber-client.svg)](https://badge.fury.io/py/talkscriber-client)
-[![Python Support](https://img.shields.io/pypi/pyversions/talkscriber-client.svg)](https://pypi.org/project/talkscriber-client/)
+[![PyPI version](https://badge.fury.io/py/tsclient.svg)](https://badge.fury.io/py/tsclient)
+[![Python Support](https://img.shields.io/pypi/pyversions/tsclient.svg)](https://pypi.org/project/tsclient/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Downloads](https://pepy.tech/badge/talkscriber-client)](https://pepy.tech/project/talkscriber-client)
+[![Downloads](https://pepy.tech/badge/tsclient)](https://pepy.tech/project/tsclient)
 [![GitHub stars](https://img.shields.io/github/stars/Talkscriber/ts-client.svg)](https://github.com/Talkscriber/ts-client)
 
 A comprehensive Python client library for Talkscriber's Live Transcription and Text-to-Speech services. This package provides easy-to-use APIs for real-time speech-to-text transcription and ultra-low latency text-to-speech conversion.
@@ -29,7 +29,7 @@ A comprehensive Python client library for Talkscriber's Live Transcription and T
 ### Quick Install
 
 ```bash
-pip install talkscriber-client
+pip install tsclient
 ```
 
 ### System Dependencies
@@ -42,7 +42,7 @@ The package requires some system-level dependencies for audio processing:
 brew install portaudio
 
 # Then install the package
-pip install talkscriber-client
+pip install tsclient
 ```
 
 **Ubuntu/Debian:**
@@ -52,13 +52,13 @@ sudo apt-get update
 sudo apt-get install libasound2-dev portaudio19-dev python3-dev
 
 # Then install the package
-pip install talkscriber-client
+pip install tsclient
 ```
 
 **Windows:**
 ```bash
 # No additional setup required - just install the package
-pip install talkscriber-client
+pip install tsclient
 ```
 
 **CentOS/RHEL/Fedora:**
@@ -69,7 +69,7 @@ sudo yum install portaudio-devel python3-devel
 sudo dnf install portaudio-devel python3-devel
 
 # Then install the package
-pip install talkscriber-client
+pip install tsclient
 ```
 
 ### Development Install
@@ -226,7 +226,7 @@ Check out the `examples/` directory for comprehensive examples organized by cate
 ### Quick Start
 ```bash
 # First, install the package
-pip install talkscriber-client
+pip install tsclient
 
 # Then run examples
 # Interactive demo (recommended for beginners)

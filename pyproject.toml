@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "talkscriber-client"
+name = "tsclient"
 version = "1.0.0"
 description = "Python client library for Talkscriber Live Transcription and Text-to-Speech services"
 readme = "README.md"
@@ -73,11 +73,11 @@ Repository = "https://github.com/Talkscriber/ts-client"
 Dashboard = "https://app.talkscriber.com"
 
 [project.scripts]
-talkscriber-live = "talkscriber.live.cli:main"
+talkscriber-stt = "talkscriber.stt.cli:main"
 talkscriber-tts = "talkscriber.tts.cli:main"
 
 [tool.setuptools]
-packages = ["talkscriber", "talkscriber.live", "talkscriber.tts"]
+packages = ["talkscriber", "talkscriber.stt", "talkscriber.tts"]
 
 [tool.setuptools.package-data]
 talkscriber = ["py.typed"]

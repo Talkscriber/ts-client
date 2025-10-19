@@ -7,7 +7,7 @@ import os
 import sys
 import time
 import signal
-from talkscriber.live import TranscriptionClient
+from talkscriber.stt import TranscriptionClient
 
 def signal_handler(sig, frame):
     """Handle Ctrl+C gracefully"""

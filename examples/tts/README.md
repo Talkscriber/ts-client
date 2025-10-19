@@ -99,7 +99,7 @@ Before running any TTS examples:
 
 1. **Install the package:**
    ```bash
-   pip install talkscriber-client
+   pip install tsclient
    ```
 
 2. **Get your API key:**

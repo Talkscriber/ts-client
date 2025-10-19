@@ -25,7 +25,7 @@ def read_requirements():
     ]
 
 setup(
-    name="talkscriber-client",
+    name="tsclient",
     version="1.0.0",
     author="Talkscriber",
     author_email="support@talkscriber.com",
@@ -73,7 +73,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "talkscriber-live=talkscriber.live.cli:main",
+            "talkscriber-stt=talkscriber.stt.cli:main",
             "talkscriber-tts=talkscriber.tts.cli:main",
         ],
     },

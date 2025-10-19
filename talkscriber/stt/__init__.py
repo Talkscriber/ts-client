@@ -1,18 +1,19 @@
 """
-Talkscriber Live Transcription Module
+Talkscriber Speech-to-Text (STT) Module
 
-This module provides real-time speech-to-text transcription capabilities
+This module provides speech-to-text transcription capabilities
 using WebSocket connections to Talkscriber's transcription services.
 
 Key Features:
 - Real-time audio streaming and transcription
+- File-based audio transcription
 - Support for multiple languages
 - Smart turn detection using ML models
 - Translation capabilities
-- File and microphone input support
+- Both live microphone and file input support
 
 Example:
-    from talkscriber.live import TranscriptionClient
+    from talkscriber.stt import TranscriptionClient
     
     client = TranscriptionClient(
         host="wss://api.talkscriber.com",

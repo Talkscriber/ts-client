@@ -1,7 +1,0 @@
-numpy>=1.21.0
-scipy>=1.7.0
-ffmpeg-python>=0.2.0
-PyAudio>=0.2.11
-websocket-client>=1.6.0
-websockets>=11.0.0
-loguru>=0.7.0
