@@ -166,7 +166,7 @@ def test_cli_tools():
     import shutil
     
     # Find the correct CLI tool path
-    cli_path = shutil.which('talkscriber-live')
+    cli_path = shutil.which('talkscriber-stt')
     if not cli_path:
         print("✗ STT CLI tool not found in PATH")
         return False

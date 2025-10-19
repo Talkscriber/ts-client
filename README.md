@@ -98,7 +98,7 @@ export TALKSCRIBER_API_KEY="your_api_key_here"
 ### Live Transcription
 
 ```python
-from talkscriber.live import TranscriptionClient
+from talkscriber.stt import TranscriptionClient
 
 # Initialize client
 client = TranscriptionClient(
@@ -139,13 +139,13 @@ The package includes convenient CLI tools:
 
 ```bash
 # Transcribe from microphone
-talkscriber-live --api-key YOUR_KEY --language en
+talkscriber-stt --api-key YOUR_KEY --language en
 
 # Transcribe from file
-talkscriber-live --api-key YOUR_KEY --file audio.wav
+talkscriber-stt --api-key YOUR_KEY --file audio.wav
 
 # Enable multilingual detection
-talkscriber-live --api-key YOUR_KEY --multilingual
+talkscriber-stt --api-key YOUR_KEY --multilingual
 ```
 
 ### Text-to-Speech CLI

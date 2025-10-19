@@ -16,19 +16,19 @@ def main():
         epilog="""
 Examples:
   # Transcribe from microphone with English
-  talkscriber-live --api-key YOUR_KEY --language en
+  talkscriber-stt --api-key YOUR_KEY --language en
 
   # Transcribe from audio file
-  talkscriber-live --api-key YOUR_KEY --file audio.wav
+  talkscriber-stt --api-key YOUR_KEY --file audio.wav
 
   # Enable multilingual detection
-  talkscriber-live --api-key YOUR_KEY --multilingual
+  talkscriber-stt --api-key YOUR_KEY --multilingual
 
   # Enable translation
-  talkscriber-live --api-key YOUR_KEY --translate
+  talkscriber-stt --api-key YOUR_KEY --translate
 
   # Enable smart turn detection
-  talkscriber-live --api-key YOUR_KEY --turn-detection
+  talkscriber-stt --api-key YOUR_KEY --turn-detection
         """
     )
     

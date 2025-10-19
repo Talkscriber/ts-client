@@ -7,6 +7,8 @@ pyproject.toml
 setup.py
 test_package.py
 .github/workflows/publish.yml
+dist/tsclient-1.0.0-py3-none-any.whl
+dist/tsclient-1.0.0.tar.gz
 examples/README.md
 examples/configuration/README.md
 examples/configuration/__init__.py
