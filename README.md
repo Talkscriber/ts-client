@@ -138,14 +138,20 @@ The package includes convenient CLI tools:
 ### Live Transcription CLI
 
 ```bash
-# Transcribe from microphone
+# Transcribe from microphone (live streaming)
 talkscriber-stt --api-key YOUR_KEY --language en
 
-# Transcribe from file
+# Transcribe from file (live streaming)
 talkscriber-stt --api-key YOUR_KEY --file audio.wav
 
 # Enable multilingual detection
 talkscriber-stt --api-key YOUR_KEY --multilingual
+
+# Offline batch processing mode
+talkscriber-stt --api-key YOUR_KEY --file audio.wav --offline
+
+# Offline mode with translation
+talkscriber-stt --api-key YOUR_KEY --file audio.wav --offline --translate
 ```
 
 ### Text-to-Speech CLI
@@ -160,6 +166,30 @@ talkscriber-tts --api-key YOUR_KEY --text "Hello" --save output.wav
 # Use specific voice
 talkscriber-tts --api-key YOUR_KEY --text "Hello" --speaker tara
 ```
+
+## Transcription Modes
+
+The client supports two transcription modes:
+
+### Live Streaming Mode (Default)
+- Real-time transcription via WebSocket
+- Supports both microphone and file input
+- Results appear as audio is processed
+- Best for: Real-time applications, live conversations, immediate feedback
+
+### Offline Batch Mode
+- Submit audio file for processing via REST API
+- File input only (no microphone support)
+- Results appear after full processing completes
+- Best for: Pre-recorded audio, batch processing, non-real-time workflows
+
+To enable offline mode, use the `--offline` flag:
+
+```bash
+talkscriber-stt --api-key YOUR_KEY --file audio.wav --offline
+```
+
+**Note**: Offline mode requires the `--file` argument. Microphone input is not supported in offline mode.
 
 ## API Reference
 
