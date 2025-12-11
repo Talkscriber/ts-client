@@ -41,15 +41,15 @@ def main():
         host="api.talkscriber.com",
         port=9099,
         text=text,
-        speaker_name="tara",  # Default voice
         api_key=api_key,
-        enable_playback=True,  # Enable real-time audio playback
-        save_audio_path=None   # Don't save to file for this example
+        model="TTS_MAYA",       # Use Maya TTS model
+        enable_playback=True,   # Enable real-time audio playback
+        save_audio_path=None    # Don't save to file for this example
     )
     
     try:
         print(f"Text to speak: '{text[:50]}{'...' if len(text) > 50 else ''}'")
-        print(f"Speaker: {tts_client.speaker_name}")
+        print(f"Model: {tts_client.model}")
         print("\nGenerating speech...")
         
         # Generate and play speech

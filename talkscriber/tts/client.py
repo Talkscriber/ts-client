@@ -56,6 +56,8 @@ class TalkScriberTTSClient:
         api_key=None,
         enable_playback=True,
         save_audio_path=None,
+        model="TTS_MAYA",
+        maya_generation_config=None,
     ):
         if not DEPENDENCIES_AVAILABLE:
             raise ImportError(
@@ -67,18 +69,22 @@ class TalkScriberTTSClient:
         self.websocket_url = f"wss://{host}:{port}"
         self.websocket_client = None
         self.is_connected = False
+        self.is_authenticated = False
         self.chunks_received = 0
         self.total_bytes = 0
         self.api_key = api_key
         self.speaker_name = speaker_name
         self.text = text
+        self.model = model
+        self.maya_generation_config = maya_generation_config or {}
 
         if not self.api_key:
             raise ValueError("API key is required")
 
         # Audio playback settings
         self.enable_playback = enable_playback
-        self.save_audio_path = save_audio_path
+        # Normalize save path to absolute path if provided
+        self.save_audio_path = os.path.abspath(save_audio_path) if save_audio_path else None
 
         # Audio playback components (only initialized if playback is enabled)
         self.audio = None
@@ -177,13 +183,18 @@ class TalkScriberTTSClient:
             logger.error(f"Error sending JSON: {e}")
             return False
 
-    def send_speak_request(self, text, speaker_name="tara"):
+    def send_speak_request(self, text, speaker_name=None):
         """Send a speak request to generate TTS audio"""
         if not self.is_connected:
             logger.error("Not connected to server")
             return False
 
-        speak_message = {"type": "speak", "text": text, "speaker": self.speaker_name}
+        if not self.is_authenticated:
+            logger.error("Not authenticated yet - waiting for authentication confirmation")
+            return False
+
+        # New Maya API format - no speaker field in speak message
+        speak_message = {"type": "speak", "text": text}
 
         # Record start time for TTFT measurement
         # Timer starts when the speak request is sent (after auth is complete)
@@ -201,16 +212,21 @@ class TalkScriberTTSClient:
         logger.info("WebSocket connection opened")
         self.is_connected = True
 
-        # Send authentication message
+        # Send authentication message (new Maya API format)
         auth_message = {
-            "uid": self.session_id,
-            "auth": self.api_key,
-            "type": "tts",
+            "job_id": f"tts_job_{self.session_id}",
+            "text": "Authentication text",
             "speaker_name": self.speaker_name,
-            "text": self.text,
+            "model": self.model,
+            "auth": self.api_key,
         }
+
+        # Add maya_generation_config if provided
+        if self.maya_generation_config:
+            auth_message["maya_generation_config"] = self.maya_generation_config
+
         self.send_json(auth_message)
-        logger.info("Authentication message sent")
+        logger.info(f"Authentication message sent for model: {self.model}")
 
         # Call user callback if set
         if self.on_open_callback:
@@ -363,8 +379,10 @@ class TalkScriberTTSClient:
             return False
 
         try:
-            # Ensure directory exists
-            os.makedirs(os.path.dirname(self.save_audio_path), exist_ok=True)
+            # Ensure parent directory exists
+            dir_path = os.path.dirname(self.save_audio_path)
+            if dir_path:
+                os.makedirs(dir_path, exist_ok=True)
 
             # Combine all audio chunks
             with self.storage_lock:
@@ -403,6 +421,7 @@ class TalkScriberTTSClient:
 
         except Exception as e:
             logger.error(f"Failed to save audio to file: {e}")
+            logger.error(f"Attempted to save to: {self.save_audio_path}")
             return False
 
     def handle_message(self, message):
@@ -471,12 +490,20 @@ class TalkScriberTTSClient:
         message_type = data.get("type", "unknown")
         logger.debug(f"Received JSON message: {message_type}")
 
-        if message_type == "server_ready":
+        if message_type == "authenticated":
+            logger.info("Authentication successful! Ready to send speak requests.")
+            self.is_authenticated = True
+
+        elif message_type == "speak_started":
+            logger.info("Server acknowledged speak request - audio generation starting")
+
+        elif message_type == "server_ready":
             logger.info("Server confirmed ready for TTS")
 
         elif message_type == "audio_complete":
+            status = data.get("status", "unknown")
             logger.info(
-                f"Audio generation completed! Received {self.chunks_received} chunks, {self.total_bytes:,} total bytes"
+                f"Audio generation completed! Status: {status}, Received {self.chunks_received} chunks, {self.total_bytes:,} total bytes"
             )
 
             # Save audio to file if path is provided
@@ -517,6 +544,7 @@ class TalkScriberTTSClient:
         self.chunks_received = 0
         self.total_bytes = 0
         self.generation_complete = False
+        self.is_authenticated = False
 
         # Reset TTFT metrics
         self.request_start_time = None
@@ -554,8 +582,18 @@ class TalkScriberTTSClient:
                 logger.error("Failed to connect within timeout")
                 return False
 
-            # Wait a moment for connection to stabilize
-            time.sleep(0.5)
+            # Wait for authentication to complete
+            logger.info("Waiting for authentication...")
+            timeout_count = 0
+            while not self.is_authenticated and timeout_count < 50:  # 5 seconds timeout
+                time.sleep(0.1)
+                timeout_count += 1
+
+            if not self.is_authenticated:
+                logger.error("Failed to authenticate within timeout")
+                return False
+
+            logger.info("Authentication successful, ready to send speak request")
 
             # Send speak request (this triggers TTS generation and starts TTFT timer)
             if self.send_speak_request(self.text):

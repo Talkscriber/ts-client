@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+
+Before making any code changes, please follow this process:
+Comprehensive Code Review: Conduct a thorough analysis of the entire codebase to understand the current implementation, architecture, and dependencies.
+Minimal Modifications: Only add what is strictly necessary. Avoid introducing unnecessary code, dependencies, or complexity.
+Add Strategic Logging: Include appropriate logging statements to facilitate debugging. I will provide these logs in subsequent messages so you can identify and resolve any issues effectively.
+Analysis-First Approach: Do not perform blind code modifications. Complete a full analysis and understanding of the codebase before implementing any changes.
+Code Quality Standards:
+Write modular, well-structured code
+Ensure code is easy to read and understand
+Follow best practices for maintainability
+Add clear comments where necessary
+Process Summary: Review → Analyze → Plan → Implement with minimal, well-documented changes.

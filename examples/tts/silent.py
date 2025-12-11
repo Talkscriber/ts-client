@@ -44,15 +44,15 @@ def main():
         host="api.talkscriber.com",
         port=9099,
         text=text,
-        speaker_name="tara",
         api_key=api_key,
+        model="TTS_MAYA",
         enable_playback=False,  # Disable audio playback
         save_audio_path=output_file  # Save to file
     )
     
     try:
         print(f"Text to generate: '{text[:50]}{'...' if len(text) > 50 else ''}'")
-        print(f"Speaker: {tts_client.speaker_name}")
+        print(f"Model: {tts_client.model}")
         print(f"Output file: {output_file}")
         print("Playback: Disabled (silent mode)")
         print("\nGenerating speech...")

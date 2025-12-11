@@ -63,9 +63,48 @@ Examples:
         help="Disable audio playback (useful when only saving to file)",
     )
 
+    # Maya generation config arguments
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        help="Maya temperature parameter (controls randomness)",
+    )
+    parser.add_argument(
+        "--top-p", type=float, help="Maya top_p parameter (nucleus sampling)"
+    )
+    parser.add_argument(
+        "--top-k", type=int, help="Maya top_k parameter (top-k sampling)"
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        help="Maya max_tokens parameter (maximum output length)",
+    )
+    parser.add_argument(
+        "--repetition-penalty",
+        type=float,
+        help="Maya repetition_penalty parameter (penalize repetitions)",
+    )
+    parser.add_argument(
+        "--model", default="TTS_MAYA", help="TTS model to use (default: TTS_MAYA)"
+    )
+
     args = parser.parse_args()
 
     try:
+        # Build maya_generation_config from command line arguments
+        maya_generation_config = {}
+        if args.temperature is not None:
+            maya_generation_config["temperature"] = args.temperature
+        if args.top_p is not None:
+            maya_generation_config["top_p"] = args.top_p
+        if args.top_k is not None:
+            maya_generation_config["top_k"] = args.top_k
+        if args.max_tokens is not None:
+            maya_generation_config["max_tokens"] = args.max_tokens
+        if args.repetition_penalty is not None:
+            maya_generation_config["repetition_penalty"] = args.repetition_penalty
+
         # Create TTS client
         client = TalkScriberTTSClient(
             host=args.host,
@@ -75,14 +114,19 @@ Examples:
             api_key=args.api_key,
             enable_playback=not args.no_playback,
             save_audio_path=args.save,
+            model=args.model,
+            maya_generation_config=maya_generation_config if maya_generation_config else None,
         )
 
-        print(f"[INFO]: Starting TTS generation...")
+        print("[INFO]: Starting TTS generation...")
+        print(f"[INFO]: Model: {args.model}")
         print(f"[INFO]: Text: '{args.text[:50]}{'...' if len(args.text) > 50 else ''}'")
         print(f"[INFO]: Speaker: {args.speaker}")
         print(f"[INFO]: Playback: {'enabled' if not args.no_playback else 'disabled'}")
         if args.save:
             print(f"[INFO]: Saving to: {args.save}")
+        if maya_generation_config:
+            print(f"[INFO]: Maya generation config: {maya_generation_config}")
         print()
 
         # Run TTS
@@ -102,7 +146,8 @@ Examples:
             # Show TTFT metrics
             if audio_info.get("ttft_ms") is not None:
                 print(
-                    f"[INFO]: ⚡ TTFT (Time to First Token): {audio_info['ttft_ms']:.2f}ms"
+                    "[INFO]: ⚡ TTFT (Time to First Token): " +
+                    f"{audio_info['ttft_ms']:.2f}ms"
                 )
         else:
             print("[ERROR]: TTS generation failed")

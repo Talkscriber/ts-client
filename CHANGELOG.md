@@ -69,6 +69,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed legacy duplicate directories (`/tts/`, `/python/`)
   - Updated all import statements and documentation
 
+- **TTS API Update - Maya Integration**
+  - Migrated TTS client to new Maya API format
+  - Updated authentication flow to use job_id and model specification
+  - Added support for authenticated confirmation before speak requests
+  - Removed speaker field from speak messages (handled in auth)
+  - Added maya_generation_config parameter support (temperature, top_p, top_k, max_tokens, repetition_penalty)
+  - Added model parameter to specify TTS model (default: TTS_MAYA)
+  - Updated CLI with new generation config options (--temperature, --top-p, --top-k, --max-tokens, --repetition-penalty, --model)
+  - Added handling for speak_started message type
+  - Previous API version is deprecated and replaced
+  - Updated README.md with comprehensive documentation for Maya generation config
+  - Added configuration examples and parameter recommendations
+  - Simplified API examples by removing speaker_name references from documentation
+
+- **Bug Fixes**
+  - Fixed file path handling in TTS client to properly handle relative and absolute paths
+  - Normalized save_audio_path to absolute path in __init__ for consistent handling
+  - Improved directory creation logic to handle files in current directory
+  - Added better error logging when file save operations fail
+
 ### Planned Features
 - Additional voice options
 - Enhanced error handling

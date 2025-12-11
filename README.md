@@ -124,10 +124,23 @@ from talkscriber.tts import TalkScriberTTSClient
 tts_client = TalkScriberTTSClient(
     api_key="your_api_key",
     text="Hello, world!",
-    speaker_name="tara"
+    model="TTS_MAYA"
 )
 
 # Generate and play speech
+tts_client.run_simple_test()
+
+# Advanced usage with generation config
+tts_client = TalkScriberTTSClient(
+    api_key="your_api_key",
+    text="Hello, world!",
+    model="TTS_MAYA",
+    maya_generation_config={
+        "temperature": 0.8,
+        "top_p": 0.9,
+        "repetition_penalty": 1.2
+    }
+)
 tts_client.run_simple_test()
 ```
 
@@ -163,8 +176,17 @@ talkscriber-tts --api-key YOUR_KEY --text "Hello, world!"
 # Save to file
 talkscriber-tts --api-key YOUR_KEY --text "Hello" --save output.wav
 
-# Use specific voice
-talkscriber-tts --api-key YOUR_KEY --text "Hello" --speaker tara
+# Advanced: Control generation parameters
+talkscriber-tts --api-key YOUR_KEY --text "Hello" --temperature 0.8 --top-p 0.9
+
+# Full control with all parameters
+talkscriber-tts --api-key YOUR_KEY --text "Hello" \
+  --model TTS_MAYA \
+  --temperature 0.8 \
+  --top-p 0.9 \
+  --top-k 50 \
+  --repetition-penalty 1.2 \
+  --save output.wav
 ```
 
 ## Transcription Modes
@@ -229,10 +251,11 @@ TalkScriberTTSClient(
     host: str = "api.talkscriber.com",
     port: int = 9099,
     text: str,
-    speaker_name: str = "tara",
     api_key: str,
     enable_playback: bool = True,
-    save_audio_path: str = None
+    save_audio_path: str = None,
+    model: str = "TTS_MAYA",
+    maya_generation_config: dict = None
 )
 ```
 
@@ -240,10 +263,94 @@ TalkScriberTTSClient(
 - `host`: TTS server hostname
 - `port`: TTS server port
 - `text`: Text to convert to speech
-- `speaker_name`: Voice to use
 - `api_key`: Your Talkscriber API key
 - `enable_playback`: Enable real-time audio playback
 - `save_audio_path`: Optional path to save audio file
+- `model`: TTS model to use (default: "TTS_MAYA")
+- `maya_generation_config`: Optional dict with generation parameters (see below)
+
+**Maya Generation Config Options:**
+
+The `maya_generation_config` parameter accepts a dictionary with the following optional keys:
+
+- `temperature` (float): Controls randomness in generation. Higher values (e.g., 0.8-1.0) make output more varied and expressive, lower values (e.g., 0.3-0.5) make it more consistent and predictable. Range: 0.0-2.0, typical: 0.6-0.9
+- `top_p` (float): Nucleus sampling parameter. Controls diversity by considering tokens with cumulative probability up to this value. Range: 0.0-1.0, typical: 0.85-0.95
+- `top_k` (int): Limits sampling to the top K most likely tokens. Lower values make output more focused. Range: 1-100, typical: 40-60
+- `max_tokens` (int): Maximum number of tokens to generate (controls output length)
+- `repetition_penalty` (float): Penalizes repetitive speech patterns. Higher values (>1.0) reduce repetition. Range: 1.0-2.0, typical: 1.1-1.3
+
+**Example with generation config:**
+
+```python
+client = TalkScriberTTSClient(
+    api_key="your_api_key",
+    text="Hello, world!",
+    model="TTS_MAYA",
+    maya_generation_config={
+        "temperature": 0.8,      # More expressive
+        "top_p": 0.9,           # Diverse sampling
+        "top_k": 50,            # Consider top 50 tokens
+        "repetition_penalty": 1.2  # Reduce repetition
+    }
+)
+```
+
+## Maya Generation Configuration
+
+The TTS client supports fine-grained control over speech generation through the `maya_generation_config` parameter. This allows you to customize the voice characteristics and generation behavior.
+
+### Configuration Parameters
+
+| Parameter | Type | Range | Default | Description |
+|-----------|------|-------|---------|-------------|
+| `temperature` | float | 0.0-2.0 | 0.7 | Controls expressiveness and variation. Higher = more varied/expressive, Lower = more consistent/predictable |
+| `top_p` | float | 0.0-1.0 | 0.9 | Nucleus sampling. Controls diversity by limiting to tokens with cumulative probability up to this value |
+| `top_k` | int | 1-100 | 50 | Limits sampling to top K most likely tokens. Lower = more focused output |
+| `max_tokens` | int | >0 | auto | Maximum number of tokens to generate (controls output length) |
+| `repetition_penalty` | float | 1.0-2.0 | 1.0 | Penalizes repetitive patterns. Higher values reduce repetition |
+
+### Usage Examples
+
+**Consistent and Predictable Voice:**
+```python
+maya_generation_config={
+    "temperature": 0.5,
+    "top_p": 0.85,
+    "repetition_penalty": 1.1
+}
+```
+
+**Expressive and Varied Voice:**
+```python
+maya_generation_config={
+    "temperature": 0.9,
+    "top_p": 0.95,
+    "top_k": 60,
+    "repetition_penalty": 1.2
+}
+```
+
+**Focused and Natural Voice (Recommended):**
+```python
+maya_generation_config={
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "top_k": 50,
+    "repetition_penalty": 1.15
+}
+```
+
+### CLI Usage
+
+```bash
+# Consistent voice
+talkscriber-tts --api-key YOUR_KEY --text "Your text" \
+  --temperature 0.5 --top-p 0.85 --repetition-penalty 1.1
+
+# Expressive voice
+talkscriber-tts --api-key YOUR_KEY --text "Your text" \
+  --temperature 0.9 --top-p 0.95 --repetition-penalty 1.2
+```
 
 ## Supported Languages
 
