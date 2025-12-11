@@ -22,6 +22,7 @@ def read_requirements():
         "websocket-client>=1.6.0",
         "websockets>=11.0.0",
         "loguru>=0.7.0",
+        "requests>=2.28.0",
     ]
 
 setup(
