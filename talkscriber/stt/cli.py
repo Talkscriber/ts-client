@@ -35,8 +35,11 @@ def run_batch_processing(args):
         # Determine task type
         task = "translate" if args.translate else "transcribe"
 
-        # Prepare features list (empty for now, can be extended later)
-        features = []
+        # Prepare features list from command-line arguments
+        features = args.features if args.features else []
+        if features:
+            print(f"[INFO]: Features enabled: {', '.join(features)}")
+            print()
 
         # Create batch job
         print("[INFO]: Submitting job to batch API...")
@@ -82,6 +85,11 @@ def run_batch_processing(args):
             transcribe_data = results.get("transcribe", [])
 
             if transcribe_data:
+                # Check if word-level timestamps are available
+                has_word_timestamps = any(
+                    segment.get("words") for segment in transcribe_data
+                )
+
                 # Display segments
                 for i, segment in enumerate(transcribe_data, 1):
                     text = segment.get("text", "")
@@ -89,6 +97,19 @@ def run_batch_processing(args):
                     end = segment.get("end", 0)
 
                     print(f"[{start:.2f}s - {end:.2f}s]: {text}")
+
+                    # Display word-level timestamps if available
+                    if has_word_timestamps and segment.get("words"):
+                        words = segment.get("words", [])
+                        print("  Word-level timestamps:")
+                        for word_data in words:
+                            word_text = word_data.get("word", "")
+                            word_start = word_data.get("start", 0)
+                            word_end = word_data.get("end", 0)
+                            print(
+                                f"    [{word_start:.2f}s - {word_end:.2f}s]: {word_text}"
+                            )
+                        print()
 
                 print()
                 print("-" * 80)
@@ -136,6 +157,9 @@ Examples:
 
   # Enable smart turn detection
   talkscriber-stt --api-key YOUR_KEY --turn-detection
+
+  # Offline mode with features
+  talkscriber-stt --api-key YOUR_KEY --file audio.wav --offline --features sentiment redaction
         """,
     )
 
@@ -199,6 +223,11 @@ Examples:
         "--batch-host",
         default="https://api.talkscriber.com/api/jobs",
         help="Batch API endpoint URL (default: https://api.talkscriber.com/api/jobs)",
+    )
+    parser.add_argument(
+        "--features",
+        nargs="+",
+        help="Features to enable for offline mode (e.g., sentiment redaction)",
     )
 
     args = parser.parse_args()

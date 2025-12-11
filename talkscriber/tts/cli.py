@@ -29,54 +29,42 @@ Examples:
 
   # Custom server
   talkscriber-tts --api-key YOUR_KEY --text "Hello" --host localhost --port 9099
-        """
+        """,
     )
-    
+
     # Required arguments
     parser.add_argument(
         "--api-key",
         required=True,
-        help="Talkscriber API key (get from https://app.talkscriber.com)"
+        help="Talkscriber API key (get from https://app.talkscriber.com)",
     )
-    parser.add_argument(
-        "--text",
-        required=True,
-        help="Text to convert to speech"
-    )
-    
+    parser.add_argument("--text", required=True, help="Text to convert to speech")
+
     # Connection arguments
     parser.add_argument(
         "--host",
         default="api.talkscriber.com",
-        help="TTS server hostname (default: api.talkscriber.com)"
+        help="TTS server hostname (default: api.talkscriber.com)",
     )
     parser.add_argument(
-        "--port",
-        type=int,
-        default=9099,
-        help="TTS server port (default: 9099)"
+        "--port", type=int, default=9099, help="TTS server port (default: 9099)"
     )
-    
+
     # Voice arguments
     parser.add_argument(
-        "--speaker",
-        default="tara",
-        help="Speaker voice to use (default: tara)"
+        "--speaker", default="tara", help="Speaker voice to use (default: tara)"
     )
-    
+
     # Audio output arguments
-    parser.add_argument(
-        "--save",
-        help="Path to save audio file (optional)"
-    )
+    parser.add_argument("--save", help="Path to save audio file (optional)")
     parser.add_argument(
         "--no-playback",
         action="store_true",
-        help="Disable audio playback (useful when only saving to file)"
+        help="Disable audio playback (useful when only saving to file)",
     )
-    
+
     args = parser.parse_args()
-    
+
     try:
         # Create TTS client
         client = TalkScriberTTSClient(
@@ -86,9 +74,9 @@ Examples:
             speaker_name=args.speaker,
             api_key=args.api_key,
             enable_playback=not args.no_playback,
-            save_audio_path=args.save
+            save_audio_path=args.save,
         )
-        
+
         print(f"[INFO]: Starting TTS generation...")
         print(f"[INFO]: Text: '{args.text[:50]}{'...' if len(args.text) > 50 else ''}'")
         print(f"[INFO]: Speaker: {args.speaker}")
@@ -96,22 +84,30 @@ Examples:
         if args.save:
             print(f"[INFO]: Saving to: {args.save}")
         print()
-        
+
         # Run TTS
         success = client.run_simple_test()
-        
+
         if success:
             print("[INFO]: TTS generation completed successfully")
-            
+
             # Show audio info if available
             audio_info = client.get_audio_info()
-            print(f"[INFO]: Audio info: {audio_info['chunks_count']} chunks, "
-                  f"{audio_info['total_bytes']:,} bytes, "
-                  f"{audio_info['duration_seconds']:.2f}s duration")
+            print(
+                f"[INFO]: Audio info: {audio_info['chunks_count']} chunks, "
+                f"{audio_info['total_bytes']:,} bytes, "
+                f"{audio_info['duration_seconds']:.2f}s duration"
+            )
+
+            # Show TTFT metrics
+            if audio_info.get("ttft_ms") is not None:
+                print(
+                    f"[INFO]: ⚡ TTFT (Time to First Token): {audio_info['ttft_ms']:.2f}ms"
+                )
         else:
             print("[ERROR]: TTS generation failed")
             sys.exit(1)
-            
+
     except KeyboardInterrupt:
         print("\n[INFO]: TTS generation stopped by user")
         sys.exit(0)
