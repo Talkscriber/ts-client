@@ -14,6 +14,7 @@ A comprehensive Python client library for Talkscriber's Live Transcription and T
 - Real-time speech-to-text transcription via WebSocket
 - Support for 50+ languages
 - Smart turn detection using ML models
+- Emotion classification (text + audio) returned on end-of-utterance segments (always on)
 - Translation capabilities
 - File and microphone input support
 
@@ -241,6 +242,44 @@ TranscriptionClient(
 - `translate`: Enable translation
 - `enable_turn_detection`: Enable ML-based turn detection
 - `turn_detection_timeout`: Timeout for turn detection
+
+#### Transcription result: segment payload fields
+
+When you receive streaming STT results over WebSocket, each `segment` may include additional metadata alongside `start`, `end`, `text`, etc.
+
+**Emotion classification (always on):**
+
+- `emotion`: **Text-based** emotion scores for the segment text. This is a dictionary mapping emotion name → score (float in \([0, 1]\)).
+  - Text emotion labels: `anger`, `disgust`, `fear`, `joy`, `neutral`, `sadness`, `surprise`
+- `emotion_audio`: **Audio-based** emotion scores computed from the audio corresponding to the segment. This is a dictionary mapping label → score (float in \([0, 1]\)).
+  - Audio emotion labels: `neu`, `hap`, `ang`, `sad`
+- These emotion fields are returned **alongside end-of-utterance segments**, i.e. when `EOS` is `true`. (They may be omitted on non-EOS partial segments.)
+
+Example segment (truncated):
+
+```json
+{
+  "start": 0,
+  "end": 2.9978125,
+  "text": "Hello can you hear me?",
+  "emotion": {
+    "anger": 0.02,
+    "disgust": 0.01,
+    "fear": 0.04,
+    "joy": 0.02,
+    "neutral": 0.72,
+    "sadness": 0.02,
+    "surprise": 0.17
+  },
+  "emotion_audio": {
+    "sad": 0.47
+  },
+  "speaker_name": "-",
+  "speaker_id": "0000",
+  "EOS": true,
+  "segment_id": 0
+}
+```
 
 ### Text-to-Speech
 

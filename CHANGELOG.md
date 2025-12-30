@@ -61,6 +61,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **STT emotion metadata**: streaming STT `segments` may include `emotion` (text-based: `anger`, `disgust`, `fear`, `joy`, `neutral`, `sadness`, `surprise`) and `emotion_audio` (audio-based: `neu`, `hap`, `ang`, `sad`) score dictionaries on end-of-utterance (`EOS: true`) segments. No client flags required (always on).
+
 ### Changed
 - **Package Structure Reorganization**
   - Renamed `talkscriber.live` module to `talkscriber.stt` for clarity
